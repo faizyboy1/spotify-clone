@@ -11,6 +11,9 @@ import { LoggerMiddleware } from './common/middleware/logger/logger.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { PlaylistModule } from './playlist/playlist.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { ArtistsModule } from './artists/artists.module';
 
 @Module({
   imports: [
@@ -25,7 +28,10 @@ import { PlaylistModule } from './playlist/playlist.module';
       synchronize:true
     }),
     SongsModule,
-    PlaylistModule],
+    PlaylistModule,
+    AuthModule,
+    UsersModule,
+    ArtistsModule],
   controllers: [AppController],
   providers: [AppService],
 })

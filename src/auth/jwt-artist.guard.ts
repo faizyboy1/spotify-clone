@@ -1,0 +1,19 @@
+import { PayloadType } from './types/payload.type';
+import { ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Observable } from 'rxjs';
+export class JWTArtistGuard extends AuthGuard("jwt") {
+    canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+        return super.canActivate(context);
+    }
+    handleRequest<TUser = PayloadType>(err: any, user: any, info: any, context: ExecutionContext, status?: any): TUser {
+        if(err || !user){
+            throw err || new UnauthorizedException();
+        }
+        console.log({user});
+        if(user?.artistId){
+            return user
+        }
+        throw err || new UnauthorizedException();
+    }
+}

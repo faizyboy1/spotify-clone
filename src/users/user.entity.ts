@@ -3,6 +3,7 @@ import { Artist } from './../artists/artist.entity';
 import { Column, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { PrimaryGeneratedColumn } from 'typeorm';
 import { Entity } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 @Entity('users')
 export class User {
@@ -15,10 +16,11 @@ export class User {
     @Column()
     lastName:string;
 
-    @Column()
+    @Column({unique:true})
     email:string;
 
     @Column()
+    @Exclude()
      password: string;
 
      @OneToOne(()=>Artist)
@@ -27,4 +29,15 @@ export class User {
 
      @OneToMany(()=>Playlist,(playlist)=>playlist.user)
      playlists:Playlist[];
+
+     @Column({nullable:true,type:'text'})
+     twoFASecret:string;
+
+     @Column({default:false, type:'boolean'})
+     enable2FA:boolean
+
+     @Column({nullable:true,type:"text"})
+     apiKey:string;
+
+
 }

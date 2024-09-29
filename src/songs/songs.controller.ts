@@ -1,3 +1,4 @@
+import { JWTArtistGuard } from './../auth/jwt-artist.guard';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { Song } from './song.entity';
@@ -15,7 +16,9 @@ import {
   ParseIntPipe,
   Post,
   Put,
-  Query
+  Query,
+  Request,
+  UseGuards
 } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 
@@ -23,7 +26,9 @@ import { UpdateResult } from 'typeorm';
 export class SongsController {
   constructor(private songsService: SongsService) {}
   @Post()
-  create(@Body() createSongDto: CreateSongDto) {
+  @UseGuards(JWTArtistGuard)
+  create(@Body() createSongDto: CreateSongDto, @Request() req) {
+    console.log({req:req.user});
     const result = this.songsService.create(createSongDto);
     return result;
   }
