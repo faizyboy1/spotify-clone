@@ -5,7 +5,7 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([User])],
+  imports:[TypeOrmModule.forFeature([User])],//this will help to use the Repository
   controllers: [UsersController],
   providers: [UsersService],
   exports:[UsersService] //need to export this user service and when we will import this 

@@ -41,4 +41,15 @@ export class UsersService {
         return this.userRepository.findOneBy({apiKey})
     }
 
+    async createAndSaveApiKey(userId:number):Promise<string>{
+        const apiKey=uuid4()
+        await this.userRepository.update({id:userId},{apiKey})
+        return apiKey;
+    }
+    async deleteAPiKey(userId:number):Promise<UpdateResult>{
+        return await this.userRepository.update({id:userId},{apiKey:null})
+        
+    }
+
+
 }

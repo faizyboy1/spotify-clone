@@ -1,3 +1,4 @@
+import { ApiTags } from '@nestjs/swagger';
 import { JWTArtistGuard } from './../auth/jwt-artist.guard';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { UpdateSongDto } from './dto/update-song.dto';
@@ -23,6 +24,7 @@ import {
 import { UpdateResult } from 'typeorm';
 
 @Controller('songs')
+@ApiTags("songs")
 export class SongsController {
   constructor(private songsService: SongsService) {}
   @Post()

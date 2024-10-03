@@ -1,7 +1,4 @@
-import { Playlist } from './playlist/playlist.entity';
-import { Artist } from './artists/artist.entity';
-import { User } from './users/user.entity';
-import { Song } from './songs/song.entity';
+import { dataSourceOptions, typeOrmAsyncConfig } from '../db/data-source';
 import { SongsController } from './songs/songs.controller';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -14,29 +11,31 @@ import { PlaylistModule } from './playlist/playlist.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ArtistsModule } from './artists/artists.module';
-
+import { SeedModule } from './seed/seed.module';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './config/configuration';
+import { validate } from './env.validation';
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type:'postgres',
-      host:'localhost',
-      port:5432,
-      username:'postgres',
-      password:'root',
-      database:'spotify-clone',
-      entities:[Song,User,Artist,Playlist],
-      synchronize:true
+    ConfigModule.forRoot({
+      envFilePath: ['.development.env', '.production.env'],
+      isGlobal: true,
+      load: [configuration],
+      validate: validate,
     }),
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     SongsModule,
     PlaylistModule,
     AuthModule,
     UsersModule,
-    ArtistsModule],
+    ArtistsModule,
+    SeedModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements NestModule {
-  constructor(private dataSource:DataSource){
+  constructor(private dataSource: DataSource) {
     console.log(dataSource.driver.database);
   }
   configure(consumer: MiddlewareConsumer) {

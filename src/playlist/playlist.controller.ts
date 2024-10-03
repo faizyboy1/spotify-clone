@@ -1,9 +1,12 @@
+import { ApiTags } from '@nestjs/swagger';
 import { Playlist } from './playlist.entity';
 import { CreatePlayListDto } from './dto/create-playlist.dto';
 import { PlaylistService } from './playlist.service';
 import { Body, Controller, Injectable, Post } from '@nestjs/common';
 
 @Controller('playlist')
+@ApiTags("playlist")
+
 export class PlaylistController {
     constructor(private playlistService:PlaylistService){}
     @Post()

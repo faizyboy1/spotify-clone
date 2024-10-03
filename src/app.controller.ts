@@ -1,9 +1,11 @@
+import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from './auth/jwt.guard';
 import { Controller, Get, Request, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
+@ApiTags("app")
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
